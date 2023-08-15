@@ -1,15 +1,13 @@
 import { FC, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.min.css"
 import {
   AuthInputGroup,
   FormError,
   FormTitle,
   InputError,
-  Toaster,
 } from "~/components/ui"
 import { Button } from "~/components/ui/Button"
+import { useToast } from "~/components/ui/Toast/use-toast"
 import { authService } from "~/services"
 import { useAppDispatch } from "~/store/hooks"
 import { setIsAuth, setUser } from "~/store/slices/user"
@@ -19,6 +17,7 @@ import { IFormValues } from "../types"
 const REDIRECT_TIMEOUT = 5000
 
 export const RegisterForm: FC = () => {
+  const { toast } = useToast()
   const dispatch = useAppDispatch()
   const {
     register,
@@ -58,10 +57,10 @@ export const RegisterForm: FC = () => {
 
     reset()
 
-    toast("Please confirm your email.\n Redirecting...", {
-      progressStyle: {
-        background: "green",
-      },
+    toast({
+      title: "Confirmation sent to your email",
+      description: "Redirecting...",
+      duration: 5000,
     })
 
     setTimeout(() => {
@@ -71,7 +70,6 @@ export const RegisterForm: FC = () => {
 
   return (
     <>
-      <Toaster closeIn={REDIRECT_TIMEOUT} />
       <section className="w-full max-w-sm px-4 sm:px-6">
         <FormTitle text="Register" />
 
